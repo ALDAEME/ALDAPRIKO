@@ -13,6 +13,10 @@ package alda.heap;
 // ******************ERRORS********************************
 // Throws UnderflowException as appropriate
 
+
+//Hitta nod i ´s första barn (d är antal barn som varje nod har i heapen): d*i-(d-2)
+//Hitta nod i´s förälder(d är antal barn som varje nod har i heapen): (i+(d-2))/d
+
 /**
  * Implements a binary heap.
  * Note that all "matching" is based on the compareTo method.
@@ -20,43 +24,58 @@ package alda.heap;
  */
 public class DHeap<AnyType extends Comparable<? super AnyType>>
 {
+	
+   // private static final int DEFAULT_CAPACITY = 100;
+    private static final int DEFAULT_CHILDREN = 2;
+
+    private int currentSize;      // Number of elements in heap
+    private int children;
+    private AnyType [ ] array; // The heap array
+
     /**
      * Construct the binary heap.
      */
     public DHeap( )
     {
-        this( DEFAULT_CAPACITY );
+        this( DEFAULT_CHILDREN );
     }
 
     /**
      * Construct the binary heap.
      * @param capacity the capacity of the binary heap.
      */
-    public DHeap( int capacity )
+    public DHeap( int antal )
     {
-        currentSize = 0;
-        array = (AnyType[]) new Comparable[ capacity + 1 ];
+        //currentSize = 0;
+        children = antal;
+        array = (AnyType[]) new Comparable[ 100 ];
     }
     
-    /**
-     * Construct the binary heap given an array of items.
-     */
-    public DHeap( AnyType [ ] items )
-    {
-            currentSize = items.length;
-            array = (AnyType[]) new Comparable[ ( currentSize + 2 ) * 11 / 10 ];
-
-            int i = 1;
-            for( AnyType item : items )
-                array[ i++ ] = item;
-            buildHeap( );
-    }
+//    /**
+//     * Construct the binary heap given an array of items.
+//     */
+//    public DHeap( AnyType [ ] items )
+//    {
+//            currentSize = items.length;
+//            array = (AnyType[]) new Comparable[ ( currentSize + 2 ) * 11 / 10 ];
+//
+//            int i = 1;
+//            for( AnyType item : items )
+//                array[ i++ ] = item;
+//            buildHeap( );
+//    }
 
     /**
      * Insert into the priority queue, maintaining heap order.
      * Duplicates are allowed.
      * @param x the item to insert.
      */
+    
+    public int parentIndex(int index)
+    {
+       return array[(index+(children-2))/children];
+    }
+    
     public void insert( AnyType x )
     {
         if( currentSize == array.length - 1 )
@@ -68,6 +87,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
             array[ hole ] = array[ hole / 2 ];
         array[ hole ] = x;
     }
+    
 
 
     private void enlargeArray( int newSize )
@@ -132,10 +152,6 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
         currentSize = 0;
     }
 
-    private static final int DEFAULT_CAPACITY = 10;
-
-    private int currentSize;      // Number of elements in heap
-    private AnyType [ ] array; // The heap array
 
     /**
      * Internal method to percolate down in the heap.
