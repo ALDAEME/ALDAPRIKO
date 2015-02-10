@@ -18,12 +18,12 @@ package alda.heap;
  * Note that all "matching" is based on the compareTo method.
  * @author Mark Allen Weiss
  */
-public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
+public class DHeap<AnyType extends Comparable<? super AnyType>>
 {
     /**
      * Construct the binary heap.
      */
-    public BinaryHeap( )
+    public DHeap( )
     {
         this( DEFAULT_CAPACITY );
     }
@@ -32,7 +32,7 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
      * Construct the binary heap.
      * @param capacity the capacity of the binary heap.
      */
-    public BinaryHeap( int capacity )
+    public DHeap( int capacity )
     {
         currentSize = 0;
         array = (AnyType[]) new Comparable[ capacity + 1 ];
@@ -41,7 +41,7 @@ public class BinaryHeap<AnyType extends Comparable<? super AnyType>>
     /**
      * Construct the binary heap given an array of items.
      */
-    public BinaryHeap( AnyType [ ] items )
+    public DHeap( AnyType [ ] items )
     {
             currentSize = items.length;
             array = (AnyType[]) new Comparable[ ( currentSize + 2 ) * 11 / 10 ];
