@@ -64,11 +64,13 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
     
     public int parentIndex(int index)
     {
-       return (index+(childCount-2))/childCount;
+    	//if(index < 2) throw new IllegalArgumentException();
+    	return (index+(childCount-2))/childCount;
     }
     
     public int firstChildIndex(int index)
     {
+    	if(index < 1) throw new IllegalArgumentException();
     	return childCount * (index - 1) + 2;
     }
     
@@ -84,7 +86,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
 
             // Percolate up
         int hole = ++currentSize;
-        for( array[ 0 ] = x; x.compareTo( array[ parentIndex(hole) ] ) < 0; hole /= parentIndex(hole) )
+        for( array[ 0 ] = x; x.compareTo( array[ parentIndex(hole) ] ) < 0; hole = parentIndex(hole) )
             array[ hole ] = array[ parentIndex(hole) ];
         array[ hole ] = x;
     }
@@ -163,12 +165,16 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
         int child;
         AnyType tmp = array[ hole ];
 
-        for( ; hole * 2 <= currentSize; hole = child )
+        for( ; firstChildIndex( hole ) <= currentSize; hole = child )
         {
-            child = hole * 2;
-            if( child != currentSize &&
-                    array[ child + 1 ].compareTo( array[ child ] ) < 0 )
-                child++;
+            child = firstChildIndex( hole );
+            for(int i = child + 1; i < child + childCount; i++){
+            	if(i != currentSize && array[ i ].compareTo( array[ child ] ) < 0){
+            		child = i;
+            	}
+            }
+            //if( child != currentSize && array[ child + 1 ].compareTo( array[ child ] ) < 0 )
+            //    child++;
             if( array[ child ].compareTo( tmp ) < 0 )
                 array[ hole ] = array[ child ];
             else
