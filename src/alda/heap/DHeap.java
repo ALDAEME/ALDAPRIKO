@@ -16,6 +16,7 @@ package alda.heap;
 
 //Hitta nod i ´s första barn (d är antal barn som varje nod har i heapen): d*i-(d-2)
 //Hitta nod i´s förälder(d är antal barn som varje nod har i heapen): (i+(d-2))/d
+// F�rsta barn: d(i-1)+2
 
 /**
  * Implements a binary heap.
@@ -25,11 +26,11 @@ package alda.heap;
 public class DHeap<AnyType extends Comparable<? super AnyType>>
 {
 	
-   // private static final int DEFAULT_CAPACITY = 100;
+	private static final int DEFAULT_CAPACITY = 10;
     private static final int DEFAULT_CHILDREN = 2;
 
     private int currentSize;      // Number of elements in heap
-    private int children;
+    private int childCount;
     private AnyType [ ] array; // The heap array
 
     /**
@@ -47,8 +48,8 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
     public DHeap( int antal )
     {
         //currentSize = 0;
-        children = antal;
-        array = (AnyType[]) new Comparable[ 100 ];
+        childCount = antal;
+        array = (AnyType[]) new Comparable[ DEFAULT_CAPACITY ];
     }
     
 //    /**
@@ -73,7 +74,12 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
     
     public int parentIndex(int index)
     {
-       return array[(index+(children-2))/children];
+       return (index+(childCount-2))/childCount;
+    }
+    
+    public int firstChildIndex(int index)
+    {
+    	return childCount * (index - 1) + 2;
     }
     
     public void insert( AnyType x )
