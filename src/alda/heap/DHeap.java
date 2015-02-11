@@ -98,7 +98,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
         
         int hole = ++currentSize;
 
-        for( array[ 0 ] = x; x.compareTo( array[ (hole+(childCount-2))/childCount ] ) < 0; hole = parentIndex(hole) )
+        for( array[ 0 ] = x; x.compareTo( array[ (hole+(childCount-2))/childCount ] ) < 0; hole = (hole+(childCount-2))/childCount )
             array[ hole ] = array[ (hole+(childCount-2))/childCount ];
 
   
@@ -203,52 +203,20 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
         }
         array[ hole ] = tmp;
     }
-//    private void percolateDown(int hole) {
-//		int child;
-//		AnyType tmp = array[hole];
-//		for (;firstChildIndex(hole) <= currentSize; hole = child) {
-//			child = firstChildIndex(hole);
-//			if (child != currentSize
-//					&& array[child + 1].compareTo(array[child]) < 0)
-//				child++;
-//			if (array[child].compareTo(tmp) < 0)
-//				array[hole] = array[child];
-//			else
-//				break;
-//		}
-//		array[hole] = tmp;
-//	}
-//
-//        for( ; firstChildIndex( hole ) <= currentSize; hole = child )
-//        {
-//            child = firstChildIndex( hole );
-//            for(int i = child + 1; i < child + childCount; i++){
-//            	if(i != currentSize && array[ i ].compareTo( array[ child ] ) < 0){
-//            		child = i;
-//            	}
-//            }
-//            //if( child != currentSize && array[ child + 1 ].compareTo( array[ child ] ) < 0 )
-//            //    child++;
-//            if( array[ child ].compareTo( tmp ) < 0 )
-//                array[ hole ] = array[ child ];
-//            else
-//                break;
-//        }
-//        array[ hole ] = tmp;
-//    }
 
-//        // Test program
-//    public static void main( String [ ] args )
-//    {
-//        int numItems = 10000;
-//        DHeap<Integer> h = new DHeap<>( );
-//        int i = 37;
-//
-//        for( i = 37; i != 0; i = ( i + 37 ) % numItems )
-//            h.insert( i );
-//        for( i = 1; i < numItems; i++ )
-//            if( h.deleteMin( ) != i )
-//                System.out.println( "Oops! " + i );
-//    }
+
+        // Test program
+    public static void main( String [ ] args )
+    {
+        int numItems = 10000;
+        DHeap<Integer> h = new DHeap<Integer>( );
+        int i = 37;
+
+        for( i = 37; i != 0; i = ( i + 37 ) % numItems )
+            h.insert( i );
+        for( i = 1; i < numItems; i++ )
+            if( h.deleteMin( ) != i )
+                System.out.println( "Oops! " + i );
+    }
 
 }
