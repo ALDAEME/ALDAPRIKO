@@ -12,11 +12,11 @@ package alda.heap;
 // void makeEmpty( )      --> Remove all items
 // ******************ERRORS********************************
 // Throws UnderflowException as appropriate
-
-
-//Hitta nod i Â´s fÃ¶rsta barn (d Ã¤r antal barn som varje nod har i heapen): d*i-(d-2)
-//Hitta nod iÂ´s fÃ¶rÃ¤lder(d Ã¤r antal barn som varje nod har i heapen): (i+(d-2))/d
-// Fï¿½rsta barn: d(i-1)+2
+//
+// @author Läroboken
+// @author Elise Edette tero0337
+// @author Emma Persson empe5691
+// @author Aframyeos Rohoum afro0793
 
 /**
  * Implements a binary heap.
@@ -67,18 +67,21 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
     
     public int parentIndex(int index)
     {
+    	/*
+    	 * Vi använder inte denna metod eftersom den är valfri och inte fungerar med våran insert() ändå för den använder index 0 
+    	 * för att förenkla algoritmen. Vi kunde ha skrivit om insert() men eftersom denna metod är optional så var det enklare att inte använda denna metod.
+    	 * Vi är inte säkra om vi får ta bort denna metod (och därmed testfallet) så vi har den kvar för att inte trippa testfallet.
+    	 * Man skulle kunna tänka att det är ok att ta bort testfallet som berör denna metod men vi valde att ha den kvar, just in case.
+    	 * */
        if(index<=1){
     	   throw new IllegalArgumentException();
        }
 
-    	//if(index < 2) throw new IllegalArgumentException();
     	return (index+(childCount-2))/childCount;
-
     }
     
     public int firstChildIndex(int index)
     {
-
     	if(index < 1) throw new IllegalArgumentException();
 
     	return childCount * (index - 1) + 2;
@@ -94,14 +97,11 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
         if( currentSize == array.length - 1 )
             enlargeArray( array.length * 2 + 1 );
 
-            // Percolate up
-        
+        // Percolate up
         int hole = ++currentSize;
 
         for( array[ 0 ] = x; x.compareTo( array[ (hole+(childCount-2))/childCount ] ) < 0; hole = (hole+(childCount-2))/childCount )
             array[ hole ] = array[ (hole+(childCount-2))/childCount ];
-
-  
 
         array[ hole ] = x;
     }
@@ -149,7 +149,11 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
      */
     private void buildHeap( )
     {
-        for( int i = parentIndex(currentSize); i > 0; i-- )///HÃ„R??
+    	/*
+    	 * Arbetet avröts för denna metod eftersom den inte verkar användas.
+    	 * Får vi ta bort denna? Vi är inte säkra så den stannar kvar.
+    	 * */
+        for( int i = parentIndex(currentSize); i > 0; i-- )
             percolateDown( i );
     }
 
