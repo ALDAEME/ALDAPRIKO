@@ -29,12 +29,7 @@ public class DHeapTester {
 			oracle.add(tal);
 
 			while (!heap.isEmpty() && rnd.nextBoolean()) {
-				Integer a = oracle.poll();
-//				Integer b = heap.deleteMin();
-				
-				if(null== heap.deleteMin()) System.out.println("bal");
-				
-//				assertEquals(a, b);
+				assertEquals(oracle.poll(), heap.deleteMin());
 			}
 
 			assertEquals(oracle.isEmpty(), heap.isEmpty());
