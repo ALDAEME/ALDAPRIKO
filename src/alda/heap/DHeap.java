@@ -47,12 +47,13 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
      */
     public DHeap( int antal )
     {
-        //currentSize = 0;
+        if(antal < 2) throw new IllegalArgumentException();
         childCount = antal;
         array = (AnyType[]) new Comparable[ DEFAULT_CAPACITY ];
     }
 
-    public int size(){
+    public int size()
+    {
     	return currentSize;
     }
     
@@ -83,8 +84,8 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
 
             // Percolate up
         int hole = ++currentSize;
-        for( array[ 0 ] = x; x.compareTo( array[ hole / 2 ] ) < 0; hole /= 2 )
-            array[ hole ] = array[ hole / 2 ];
+        for( array[ 0 ] = x; x.compareTo( array[ parentIndex(hole) ] ) < 0; hole /= parentIndex(hole) )
+            array[ hole ] = array[ parentIndex(hole) ];
         array[ hole ] = x;
     }
     
@@ -180,7 +181,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
     public static void main( String [ ] args )
     {
         int numItems = 10000;
-        BinaryHeap<Integer> h = new BinaryHeap<>( );
+        DHeap<Integer> h = new DHeap<>( );
         int i = 37;
 
         for( i = 37; i != 0; i = ( i + 37 ) % numItems )
