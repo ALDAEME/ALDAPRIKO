@@ -51,26 +51,10 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
         childCount = antal;
         array = (AnyType[]) new Comparable[ DEFAULT_CAPACITY ];
     }
-    
-//    /**
-//     * Construct the binary heap given an array of items.
-//     */
-//    public DHeap( AnyType [ ] items )
-//    {
-//            currentSize = items.length;
-//            array = (AnyType[]) new Comparable[ ( currentSize + 2 ) * 11 / 10 ];
-//
-//            int i = 1;
-//            for( AnyType item : items )
-//                array[ i++ ] = item;
-//            buildHeap( );
-//    }
 
-    /**
-     * Insert into the priority queue, maintaining heap order.
-     * Duplicates are allowed.
-     * @param x the item to insert.
-     */
+    public int size(){
+    	return currentSize;
+    }
     
     public int parentIndex(int index)
     {
@@ -82,6 +66,11 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
     	return childCount * (index - 1) + 2;
     }
     
+    /**
+     * Insert into the priority queue, maintaining heap order.
+     * Duplicates are allowed.
+     * @param x the item to insert.
+     */
     public void insert( AnyType x )
     {
         if( currentSize == array.length - 1 )
