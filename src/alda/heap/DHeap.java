@@ -56,6 +56,11 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
     	return currentSize;
     }
     
+    public AnyType get(int index)
+    {
+    	return array[index];
+    }
+    
     public int parentIndex(int index)
     {
        return (index+(childCount-2))/childCount;
