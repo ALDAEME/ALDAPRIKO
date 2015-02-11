@@ -16,7 +16,7 @@ package alda.heap;
 
 //Hitta nod i ´s första barn (d är antal barn som varje nod har i heapen): d*i-(d-2)
 //Hitta nod i´s förälder(d är antal barn som varje nod har i heapen): (i+(d-2))/d
-// F�rsta barn: d(i-1)+2
+// F�rsta barn: d(i-1)+2
 
 /**
  * Implements a binary heap.
@@ -47,7 +47,10 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
      */
     public DHeap( int antal )
     {
+
+        //currentSize = 0;
         if(antal < 2) throw new IllegalArgumentException();
+
         childCount = antal;
         array = (AnyType[]) new Comparable[ DEFAULT_CAPACITY ];
     }
@@ -64,13 +67,20 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
     
     public int parentIndex(int index)
     {
+       if(index<=1){
+    	   throw new IllegalArgumentException();
+       }
+
     	//if(index < 2) throw new IllegalArgumentException();
     	return (index+(childCount-2))/childCount;
+
     }
     
     public int firstChildIndex(int index)
     {
+
     	if(index < 1) throw new IllegalArgumentException();
+
     	return childCount * (index - 1) + 2;
     }
     
@@ -85,9 +95,14 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
             enlargeArray( array.length * 2 + 1 );
 
             // Percolate up
+        
         int hole = ++currentSize;
-        for( array[ 0 ] = x; x.compareTo( array[ parentIndex(hole) ] ) < 0; hole = parentIndex(hole) )
-            array[ hole ] = array[ parentIndex(hole) ];
+
+        for( array[ 0 ] = x; x.compareTo( array[ (hole+(childCount-2))/childCount ] ) < 0; hole = parentIndex(hole) )
+            array[ hole ] = array[ (hole+(childCount-2))/childCount ];
+
+  
+
         array[ hole ] = x;
     }
     
@@ -134,7 +149,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
      */
     private void buildHeap( )
     {
-        for( int i = currentSize / 2; i > 0; i-- )
+        for( int i = parentIndex(currentSize); i > 0; i-- )///HÄR??
             percolateDown( i );
     }
 
@@ -165,35 +180,75 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
         int child;
         AnyType tmp = array[ hole ];
 
-        for( ; firstChildIndex( hole ) <= currentSize; hole = child )
-        {
-            child = firstChildIndex( hole );
-            for(int i = child + 1; i < child + childCount; i++){
-            	if(i != currentSize && array[ i ].compareTo( array[ child ] ) < 0){
-            		child = i;
+
+        for( ; firstChildIndex(hole) <= currentSize; hole = child ){
+        	
+            child = firstChildIndex(hole);
+           int childtmp = firstChildIndex(hole);
+            for(int i=1; i<(childCount+1); i++){
+            	if(childtmp+i <=currentSize){
+            	if( child!= currentSize && array[ childtmp + i ].compareTo( array[ child ] ) < 0 ){
+                    
+            		child=childtmp+i;
+            	}
             	}
             }
-            //if( child != currentSize && array[ child + 1 ].compareTo( array[ child ] ) < 0 )
-            //    child++;
-            if( array[ child ].compareTo( tmp ) < 0 )
-                array[ hole ] = array[ child ];
-            else
-                break;
+            	if( array[ child ].compareTo( tmp ) < 0 )
+                    array[ hole ] = array[ child ];
+                else
+                    break;
+            
+            
+            
         }
         array[ hole ] = tmp;
     }
+//    private void percolateDown(int hole) {
+//		int child;
+//		AnyType tmp = array[hole];
+//		for (;firstChildIndex(hole) <= currentSize; hole = child) {
+//			child = firstChildIndex(hole);
+//			if (child != currentSize
+//					&& array[child + 1].compareTo(array[child]) < 0)
+//				child++;
+//			if (array[child].compareTo(tmp) < 0)
+//				array[hole] = array[child];
+//			else
+//				break;
+//		}
+//		array[hole] = tmp;
+//	}
+//
+//        for( ; firstChildIndex( hole ) <= currentSize; hole = child )
+//        {
+//            child = firstChildIndex( hole );
+//            for(int i = child + 1; i < child + childCount; i++){
+//            	if(i != currentSize && array[ i ].compareTo( array[ child ] ) < 0){
+//            		child = i;
+//            	}
+//            }
+//            //if( child != currentSize && array[ child + 1 ].compareTo( array[ child ] ) < 0 )
+//            //    child++;
+//            if( array[ child ].compareTo( tmp ) < 0 )
+//                array[ hole ] = array[ child ];
+//            else
+//                break;
+//        }
+//        array[ hole ] = tmp;
+//    }
 
-        // Test program
-    public static void main( String [ ] args )
-    {
-        int numItems = 10000;
-        DHeap<Integer> h = new DHeap<>( );
-        int i = 37;
+//        // Test program
+//    public static void main( String [ ] args )
+//    {
+//        int numItems = 10000;
+//        DHeap<Integer> h = new DHeap<>( );
+//        int i = 37;
+//
+//        for( i = 37; i != 0; i = ( i + 37 ) % numItems )
+//            h.insert( i );
+//        for( i = 1; i < numItems; i++ )
+//            if( h.deleteMin( ) != i )
+//                System.out.println( "Oops! " + i );
+//    }
 
-        for( i = 37; i != 0; i = ( i + 37 ) % numItems )
-            h.insert( i );
-        for( i = 1; i < numItems; i++ )
-            if( h.deleteMin( ) != i )
-                System.out.println( "Oops! " + i );
-    }
 }
