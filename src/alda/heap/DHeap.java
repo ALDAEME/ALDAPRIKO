@@ -19,8 +19,7 @@ package alda.heap;
 // @author Aframyeos Rohoum afro0793
 
 /**
- * Implements a binary heap.
- * Note that all "matching" is based on the compareTo method.
+ * Implements a D- heap.
  * @author Mark Allen Weiss
  */
 public class DHeap<AnyType extends Comparable<? super AnyType>>
@@ -34,7 +33,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
     private AnyType [ ] array; // The heap array
 
     /**
-     * Construct the binary heap.
+     * Construct the D- heap.
      */
     public DHeap( )
     {
@@ -42,13 +41,11 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
     }
 
     /**
-     * Construct the binary heap.
+     * Construct the D- heap.
      * @param capacity the capacity of the binary heap.
      */
     public DHeap( int antal )
     {
-
-        //currentSize = 0;
         if(antal < 2) throw new IllegalArgumentException();
 
         childCount = antal;
@@ -106,8 +103,6 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
         array[ hole ] = x;
     }
     
-
-
     private void enlargeArray( int newSize )
     {
             AnyType [] old = array;
@@ -184,26 +179,21 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
         int child;
         AnyType tmp = array[ hole ];
 
-
         for( ; firstChildIndex(hole) <= currentSize; hole = child ){
         	
             child = firstChildIndex(hole);
            int childtmp = firstChildIndex(hole);
             for(int i=1; i<(childCount+1); i++){
             	if(childtmp+i <=currentSize){
-            	if( child!= currentSize && array[ childtmp + i ].compareTo( array[ child ] ) < 0 ){
-                    
-            		child=childtmp+i;
-            	}
+            		if( child!= currentSize && array[ childtmp + i ].compareTo( array[ child ] ) < 0 ){
+            			child=childtmp+i;
+            		}
             	}
             }
-            	if( array[ child ].compareTo( tmp ) < 0 )
-                    array[ hole ] = array[ child ];
-                else
-                    break;
-            
-            
-            
+            if( array[ child ].compareTo( tmp ) < 0 )
+            	array[ hole ] = array[ child ];
+            else
+                break;    
         }
         array[ hole ] = tmp;
     }
